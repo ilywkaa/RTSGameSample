@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
+using Leopotam.Ecs.Ui.Systems;
 using Models;
-using Pathfinding;
 using TowerDefence;
 using UnityEngine;
 
@@ -13,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public EcsWorld World;
     public GameConfiguration Configuration;
 
+    [SerializeField] private EcsUiEmitter _uiEmitter = null;
     [SerializeField] private GameObject _root;
 
     private ILevelService _levelService;
@@ -29,11 +27,21 @@ public class GameManager : Singleton<GameManager>
         
         World = new EcsWorld();
         _systems = new EcsSystems(World)
+            //InitSystems
             .Add(new LevelSetupSystem())
+            //RunSystems
+            .Add(new UiInputSystem())
+            .Add(new PlaySystem())
+
+            .InjectUi(_uiEmitter)
             .Inject(_currentLevel)
             .Inject(Configuration)
             .Inject(_root);
 
+#if UNITY_EDITOR
+        Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (World);
+        Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
+#endif
         _systems.Init();
     }
 

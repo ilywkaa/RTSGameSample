@@ -32,7 +32,7 @@ public class Gem : MonoBehaviour, IView
     }
 
 
-    public GameObject ViewObject => gameObject;
+    public GameObject GameObject => gameObject;
 
     public Transform Transform => transform;
 

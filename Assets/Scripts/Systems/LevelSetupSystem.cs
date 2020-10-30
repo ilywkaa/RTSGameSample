@@ -44,11 +44,14 @@ public class LevelSetupSystem: IEcsInitSystem
             entity
                 .Replace(new AICharacterComponent()
                 {
-                State = CharacterState.Idle
-                })
-                .Replace(new ViewComponent());
+                    State = CharacterState.Idle
+                });
             IView view = character.GetComponent<IView>();
             view.InitializeView(_configuration.PlayerTypes[characterData.ColorType - 1], ref entity);
+            entity.Replace(new ViewComponent()
+            {
+                Value = view
+            });
         }
 
         foreach (var obstacleData in _levelData.Obstacles)
@@ -67,10 +70,14 @@ public class LevelSetupSystem: IEcsInitSystem
             gem.transform.position = position;
             var entity = _world.NewEntity();
             entity
-                .Replace(new GemComponent())
-                .Replace(new ViewComponent()); 
+                .Replace(new GemComponent());
             IView view = gem.GetComponent<IView>();
             view.InitializeView(_configuration.PlayerTypes[gemData.ColorType - 1], ref entity);
+            entity
+                .Replace(new ViewComponent()
+                {
+                    Value = view
+                });
         }
     }
 }
