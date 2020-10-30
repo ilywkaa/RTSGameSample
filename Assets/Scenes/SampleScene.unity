@@ -427,9 +427,8 @@ GameObject:
   - component: {fileID: 906722462}
   - component: {fileID: 906722461}
   - component: {fileID: 906722460}
-  - component: {fileID: 906722463}
   m_Layer: 5
-  m_Name: Play
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,23 +535,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906722458}
   m_CullTransparentMesh: 0
---- !u!114 &906722463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906722458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0c9fb09327b4c8193edaee9a0ce4ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WidgetName: Play
-  Emitter: {fileID: 1180822897}
-  _nameRegistrationType: 1
-  _selectable: {fileID: 0}
-  DragTreshold: 5
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +742,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1180822895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84eacffe928e39a4aaa461f43bb1843c, type: 3}
+  m_Script: {fileID: 11500000, guid: 024a7e123c316cb4191bf75ae93fe1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GameHud: {fileID: 670651314}
@@ -887,7 +869,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Configuration: {fileID: 11400000, guid: b2fa2869350c19f428e532da73a293e0, type: 2}
-  _uiEmitter: {fileID: 1180822897}
   _root: {fileID: 51057335}
 --- !u!1 &2129252342
 GameObject:

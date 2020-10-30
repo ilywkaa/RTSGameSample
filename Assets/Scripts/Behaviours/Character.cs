@@ -1,5 +1,4 @@
-﻿using System;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
 using Models;
 using Pathfinding;
 using UnityEngine;
@@ -32,12 +31,11 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
         Material = GetComponentInChildren<MeshRenderer>().material;
         _ai = GetComponent<AIPath>();
         _seeker = GetComponent<Seeker>();
-        _seeker.pathCallback += OnPathComplete;
         _levelData = GameManager.Instance.LevelData();
     }
 
 
-    public GameObject GameObject => gameObject;
+    public GameObject ViewObject => gameObject;
 
     public Transform Transform => transform;
 
@@ -80,11 +78,7 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
         if (_isTargeted)
         {
             _isTargeted = false;
-            _entity.Replace(new AICharacterComponent()
-            {
-                State = CharacterState.Moving
-            });
-            _seeker.StartPath(transform.position, _target, OnPathStart);
+            _seeker.StartPath(transform.position, _target);
         }
     }
 
@@ -104,28 +98,5 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
 
         return x < xMax && x > xMin &&
                z < zMax && z > zMin;
-    }
-
-    private void OnPathStart(Path path)
-    {
-        Debug.Log("Start path CallBack!!");
-        _entity.Replace(new AICharacterComponent()
-        {
-            State = CharacterState.Moving
-        });
-    }
-    
-    private void OnPathComplete(Path path)
-    {
-        Debug.Log("Complete path CallBack!!");
-        _entity.Replace(new AICharacterComponent()
-        {
-            State = CharacterState.Idle
-        });
-    }
-
-    private void OnDestroy()
-    {
-        _seeker.pathCallback -= OnPathComplete;
     }
 }

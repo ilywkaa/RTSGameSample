@@ -1,4 +1,4 @@
 ﻿public struct ViewComponent
 {
-    public IView Value;
+    public IView View;
 }
