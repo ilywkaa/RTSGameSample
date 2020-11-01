@@ -22,9 +22,9 @@ public class Gem : MonoBehaviour, IView
             if (triggerColor == _material.color)
             {
                 var entity = GameManager.Instance.World.NewEntity();
-                entity.Replace(new GemComponent()
+                entity.Replace(new IncomeEvent()
                 {
-                    Value = GameManager.Instance.Configuration.GemValue
+                    Value = _entity.Get<GemComponent>().Value
                 });
                 Destroy(gameObject);
             }

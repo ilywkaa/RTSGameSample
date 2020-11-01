@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class LevelSetupSystem: IEcsInitSystem
 {
-    private Level _levelData;
-    private GameConfiguration _configuration;
-    private GameObject _root;
-    private EcsWorld _world;
+    private readonly Game _game;
+    private readonly Level _levelData;
+    private readonly GameConfiguration _configuration;
+    private readonly GameObject _root;
+    private readonly EcsWorld _world;
 
 
     public void Init()
@@ -40,11 +41,13 @@ public class LevelSetupSystem: IEcsInitSystem
             Vector3 position = new Vector3(characterData.Coords.X - _levelData.Field.Width / 2, 
                 _configuration.Player.transform.position.y, characterData.Coords.Y - _levelData.Field.Depth / 2);
             character.transform.position = position;
+            int characterType = characterData.ColorType;
             var entity = _world.NewEntity();
             entity
-                .Replace(new AICharacterComponent()
+                .Replace(new AiCharacterComponent()
                 {
-                    State = CharacterState.Idle
+                    Type = characterType,
+                    Level = _game.CharactersLevels[characterType]
                 });
             IView view = character.GetComponent<IView>();
             view.InitializeView(_configuration.PlayerTypes[characterData.ColorType - 1], ref entity);
@@ -70,7 +73,7 @@ public class LevelSetupSystem: IEcsInitSystem
             gem.transform.position = position;
             var entity = _world.NewEntity();
             entity
-                .Replace(new GemComponent());
+                .Replace(new GemComponent() { Value = _configuration.GemValue });
             IView view = gem.GetComponent<IView>();
             view.InitializeView(_configuration.PlayerTypes[gemData.ColorType - 1], ref entity);
             entity

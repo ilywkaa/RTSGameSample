@@ -6,18 +6,18 @@ namespace TowerDefence
     public class GameConfiguration : ScriptableObject
     {
         [Header("Player")]
-        [Min(0f)]
-        [SerializeField]
-        private int _startAmountOfGold;
         [Min(1f)]
         [SerializeField]
-        private int _startPlayerLevel = 1;
+        private int _upgradeCharacterValue = 3;
         
 
         [Space] 
         [Header("Settings")] 
         [SerializeField]
         private string _levelDataFolder = "Levels";
+        [SerializeField]
+        private string _saveGameDataFilename = "options.data";
+
 
         [Space] [Header("GamePlay")] [SerializeField]
         private int _gemValue = 5;
@@ -37,5 +37,7 @@ namespace TowerDefence
         public string LevelFolder => _levelDataFolder;
         public Color[] PlayerTypes => _aiColors;
         public int GemValue => _gemValue;
+        public int UpgradeCharacterValue => _upgradeCharacterValue;
+        public string SaveGameDataFilename => _saveGameDataFilename;
     }
 }

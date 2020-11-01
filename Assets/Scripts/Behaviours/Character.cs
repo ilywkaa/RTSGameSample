@@ -1,39 +1,44 @@
-﻿using System;
-using Leopotam.Ecs;
+﻿using Leopotam.Ecs;
 using Models;
 using Pathfinding;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHandler, INavAgent
+
+public class Character: AIPath, IView, IPointerClickHandler, IPointerUpHandler, INavAgent
 {
-    [HideInInspector]
-    public Material Material;
-
-
-    [SerializeField] 
-    [Min(1f)]
-    private float _speedDelta = 3;
-    [SerializeField] 
-    [Min(1f)]
-    private float _maxSpeed = 15;
     [SerializeField] private LayerMask _groundLayerMask;
 
+
+    [HideInInspector]
+    public Material Material;
+    
 
     private AIPath _ai;
     private Seeker _seeker;
     private Level _levelData;
+    private Game _gameState;
+    private IUpgradeService _upgradeService;
     private EcsEntity _entity;
     private Vector3 _target;
     private bool _isTargeted;
 
 
-    void Awake()
+    private new void Awake()
     {
-        Material = GetComponentInChildren<MeshRenderer>().material;
-        _ai = GetComponent<AIPath>();
+        base.Awake();
+
+        Material = GetComponentInChildren<Renderer>().material;
         _seeker = GetComponent<Seeker>();
-        _seeker.pathCallback += OnPathComplete;
-        _levelData = GameManager.Instance.LevelData();
+        _levelData = GameManager.Instance.LevelData;
+        _gameState = GameManager.Instance.Game;
+        _upgradeService = GameManager.Instance.UpgradeService;
+    }
+    
+
+    public override void OnTargetReached()
+    {
+        base.OnTargetReached();
+        _entity.Del<IsMovingComponent>();
     }
 
 
@@ -45,12 +50,27 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
     {
         Material.color = color;
         _entity = entity;
+        Upgrade();
     }
     
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        UpgradeCharacter();
+        if (!_entity.Has<AiCharacterComponent>())
+        {
+            Debug.LogError($"Entity of character {gameObject.name} doesn't have an {nameof(AiCharacterComponent)}.");
+            return;
+        }
+
+        var character = _entity.Get<AiCharacterComponent>();
+        var upgradeEvent = new UpgradeCharacterEvent()
+        {
+            Type = character.Type,
+            NewLevelValue = _upgradeService.UpgradeCharacter(character.Level)
+        };
+
+        GameManager.Instance.World.NewEntity()
+            .Replace(upgradeEvent);
     }
     
     public void OnPointerUp(PointerEventData eventData)
@@ -80,20 +100,17 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
         if (_isTargeted)
         {
             _isTargeted = false;
-            _entity.Replace(new AICharacterComponent()
-            {
-                State = CharacterState.Moving
-            });
-            _seeker.StartPath(transform.position, _target, OnPathStart);
+            _seeker.StartPath(transform.position, _target);
+            _entity.Get<IsMovingComponent>();
         }
     }
 
 
-    private void UpgradeCharacter()
+    public void Upgrade()
     {
-        float speed = _ai.maxSpeed + _speedDelta;
-        _ai.maxSpeed = speed > +_maxSpeed ? _maxSpeed : speed;
+        maxSpeed = _entity.Get<AiCharacterComponent>().Level;
     }
+
 
     private bool InsideField(float x, float z)
     {
@@ -104,28 +121,5 @@ public class Character: MonoBehaviour, IView, IPointerClickHandler, IPointerUpHa
 
         return x < xMax && x > xMin &&
                z < zMax && z > zMin;
-    }
-
-    private void OnPathStart(Path path)
-    {
-        Debug.Log("Start path CallBack!!");
-        _entity.Replace(new AICharacterComponent()
-        {
-            State = CharacterState.Moving
-        });
-    }
-    
-    private void OnPathComplete(Path path)
-    {
-        Debug.Log("Complete path CallBack!!");
-        _entity.Replace(new AICharacterComponent()
-        {
-            State = CharacterState.Idle
-        });
-    }
-
-    private void OnDestroy()
-    {
-        _seeker.pathCallback -= OnPathComplete;
     }
 }
