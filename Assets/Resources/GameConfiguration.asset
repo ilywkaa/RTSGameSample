@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fad8db03b52ede4cb6354ee284c8634, type: 3}
   m_Name: GameConfiguration
   m_EditorClassIdentifier: 
-  _startAmountOfGold: 0
-  _startPlayerLevel: 1
   _upgradeCharacterValue: 3
   _levelDataFolder: Levels
   _saveGameDataFilename: options.data
@@ -22,6 +20,6 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 1, a: 0}
   - {r: 0, g: 1, b: 0, a: 0}
   - {r: 1, g: 1, b: 0, a: 0}
-  _playerPrefab: {fileID: 2476580763022999615, guid: eb4d48325db9e934cb3ad8c30a3ba336, type: 3}
+  _playerPrefab: {fileID: 2476580763022999615, guid: fb3e51b13d0c0584b85a5600d02a9ba2, type: 3}
   _obstaclePrefab: {fileID: 8240162715226615097, guid: 26370426690ecce448f54e843147f026, type: 3}
   _gemPrefab: {fileID: 2087054655491575725, guid: 5372528fd0548364c997bd7794380a2c, type: 3}

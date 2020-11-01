@@ -1,17 +1,22 @@
 ﻿using Leopotam.Ecs;
+using System;
 using UniRx;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameHud : Screen
 {
     public Button PlayButton;
+    public Button ExitButton;
     public Text Gold;
 
 
     void Awake()
     {
         PlayButton?.onClick.AddListener(OnPlayButtonClick);
+        ExitButton?.onClick.AddListener(OnExitButtonClick);
     }
+    
 
     void Start()
     {
@@ -38,5 +43,9 @@ public class GameHud : Screen
     private void OnPlayButtonClick()
     {
         GameManager.Instance.World.NewEntity().Get<PlayModeEvent>();
+    }
+    private void OnExitButtonClick()
+    {
+        SceneManager.LoadScene(0);
     }
 }

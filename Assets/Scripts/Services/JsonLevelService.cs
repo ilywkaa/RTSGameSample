@@ -18,7 +18,7 @@ public class JsonLevelService : ILevelService
         FileInfo file = new FileInfo(Path.Combine(Application.dataPath, "Resources", _filePath, levelName + ".json"));
         if (!file.Exists)
         {
-            Debug.LogError($"File {file} doesn't exist.");
+            Debug.LogError($"File {file.Name} doesn't exist.");
             return null;
         }
 

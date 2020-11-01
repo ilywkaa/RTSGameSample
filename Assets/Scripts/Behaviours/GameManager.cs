@@ -2,6 +2,7 @@
 using Models;
 using TowerDefence;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,7 +10,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private GameConfiguration _configuration;
     [SerializeField] private GameObject _root;
-    [SerializeField] private UI _ui;
+    [SerializeField] private Ui _ui;
 
     private Game _game; 
     private ILevelService _levelService;
@@ -40,6 +41,7 @@ public class GameManager : Singleton<GameManager>
             .Add(new IncomeProcessSystem())
             .Add(new GameStateProcessSystem())
             .Add(new GameSaveSystem())
+            .Add(new EndGameSystem(0)) //TODO: manage scene idx in convenient readable form
 
             .Inject(_currentLevel)
             .Inject(_root)
@@ -78,10 +80,12 @@ public class GameManager : Singleton<GameManager>
 
     private void LevelInitialize()
     {
-        //TODO: level managing
-        _currentLevel = _levelService.Load("LevelExample");
-        //TODO: read saved game data and pass it in Game below
-        _game = new Game(_saveService);
+        if (PlayerPrefs.HasKey("Level"))
+        {
+            string level = PlayerPrefs.GetString("Level");
+            _currentLevel = _levelService.Load(level);
+            _game = new Game(_saveService);
+        }
     }
     
     private void ConfigureServices()

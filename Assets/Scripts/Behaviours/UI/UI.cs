@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class UI : MonoBehaviour
+public class Ui : MonoBehaviour
 {
     public Screen GameHud;
 }

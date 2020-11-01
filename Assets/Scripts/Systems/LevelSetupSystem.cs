@@ -1,6 +1,8 @@
-﻿using Leopotam.Ecs;
+﻿using System.Collections;
+using Leopotam.Ecs;
 using Models;
 using TowerDefence;
+using UniRx;
 using UnityEngine;
 
 public class LevelSetupSystem: IEcsInitSystem
@@ -29,6 +31,14 @@ public class LevelSetupSystem: IEcsInitSystem
 
         graph.SetDimensions(_levelData.Field.Width, _levelData.Field.Depth, graph.nodeSize);
         graph.center = Vector3.zero;
+
+        //MainThreadDispatcher.StartCoroutine(Scaner());
+    }
+
+
+    IEnumerator Scaner()
+    {
+        yield return new WaitForEndOfFrame();
 
         AstarPath.active.Scan();
     }

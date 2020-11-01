@@ -1,0 +1,3 @@
+{"Field":{"Depth":30,"Width":30},"Obstacles":[{"Coords":{"X":16,"Y":4}},{"Coords":{"X":24,"Y":15}},{"Coords":{"X":18,"Y":29}}],"Characters":[{"ColorType":1,"Coords":{"X":5,"Y":10}},{"ColorType":2,"Coords":{"X":15,"Y":10}},{"ColorType":3,"Coords":{"X":25,"Y":10}}],
+"Gems":[{"ColorType":1,"Coords":{"X":3,"Y":5}},{"ColorType":1,"Coords":{"X":6,"Y":5}},{"ColorType":1,"Coords":{"X":9,"Y":5}},{"ColorType":2,"Coords":{"X":3,"Y":10}},{"ColorType":2,"Coords":{"X":6,"Y":10}},{"ColorType":2,"Coords":{"X":9,"Y":10}},{"ColorType":3,"Coords":{"X":3,"Y":15}},{"ColorType":3,"Coords":{"X":6,"Y":15}},{"ColorType":3,"Coords":{"X":9,"Y":15}}]
+}
