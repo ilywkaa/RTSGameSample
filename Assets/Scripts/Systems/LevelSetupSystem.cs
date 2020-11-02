@@ -32,13 +32,12 @@ public class LevelSetupSystem: IEcsInitSystem
         graph.SetDimensions(_levelData.Field.Width, _levelData.Field.Depth, graph.nodeSize);
         graph.center = Vector3.zero;
 
-        //MainThreadDispatcher.StartCoroutine(Scaner());
+        MainThreadDispatcher.StartCoroutine(Scanner());
     }
-
-
-    IEnumerator Scaner()
+    
+    IEnumerator Scanner()
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1f);
 
         AstarPath.active.Scan();
     }
@@ -51,6 +50,7 @@ public class LevelSetupSystem: IEcsInitSystem
             Vector3 position = new Vector3(characterData.Coords.X - _levelData.Field.Width / 2, 
                 _configuration.Player.transform.position.y, characterData.Coords.Y - _levelData.Field.Depth / 2);
             character.transform.position = position;
+            //Debug.Log($"position {characterData.ColorType} width: {character.transform.position.x}, depth: {character.transform.position.z}.");
             int characterType = characterData.ColorType;
             var entity = _world.NewEntity();
             entity

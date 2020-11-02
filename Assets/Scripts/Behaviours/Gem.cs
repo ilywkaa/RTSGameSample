@@ -26,9 +26,16 @@ public class Gem : MonoBehaviour, IView
                 {
                     Value = _entity.Get<GemComponent>().Value
                 });
+                _entity.Destroy();
                 Destroy(gameObject);
             }
         }
+    }
+
+    public void InitializeView(Color color, ref EcsEntity entity)
+    {
+        _material.color = color;
+        _entity = entity;
     }
 
 
@@ -36,9 +43,4 @@ public class Gem : MonoBehaviour, IView
 
     public Transform Transform => transform;
 
-    public void InitializeView(Color color, ref EcsEntity entity)
-    {
-        _material.color = color;
-        _entity = entity;
-    }
 }

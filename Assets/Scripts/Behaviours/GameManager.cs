@@ -1,4 +1,5 @@
-﻿using Leopotam.Ecs;
+﻿using System.Collections;
+using Leopotam.Ecs;
 using Models;
 using TowerDefence;
 using UnityEngine;
@@ -34,6 +35,7 @@ public class GameManager : Singleton<GameManager>
         _systems = new EcsSystems(World)
             //InitSystems
             .Add(new LevelSetupSystem())
+
             //RunSystems
             .Add(new PlaySystem())
             .Add(new GameStateProcessSystem())
@@ -41,6 +43,8 @@ public class GameManager : Singleton<GameManager>
             .Add(new IncomeProcessSystem())
             .Add(new GameStateProcessSystem())
             .Add(new GameSaveSystem())
+
+            //DestroySystems
             .Add(new EndGameSystem(0)) //TODO: manage scene idx in convenient readable form
 
             .Inject(_currentLevel)

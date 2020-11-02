@@ -51,6 +51,7 @@ public class Character: AIPath, IView, IPointerClickHandler, IPointerUpHandler, 
         Material.color = color;
         _entity = entity;
         Upgrade();
+        GetComponent<CharacterController>().enabled = true;
     }
     
 
